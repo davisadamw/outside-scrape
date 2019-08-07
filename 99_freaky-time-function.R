@@ -1,3 +1,7 @@
+library(tidyverse)
+library(lubridate)
+
+
 # parse time with exceptions for full hours, 'noon'
 # can set any maximum allowed time, but likely 12 or 24 hours
 hm_safe <- function(hm_text, max_hour = 12) {
@@ -36,3 +40,31 @@ time_from_noon <- function(time_text, date, PM=TRUE) {
   if (PM) return(date + hours(12) + time_c1)
   else    return(date + time_c1)
 }
+
+
+# and a couple labeling functions
+# time label format
+lt24 <- function(ts) {
+  
+  label_init <- paste(hour(ts), 
+                      str_pad(minute(ts), 2, 'left', '0'), sep = ':')
+
+  label_upd  <- case_when(label_init ==  '0:00' ~ 'Midnight',
+                          label_init == '12:00' ~ 'Noon',
+                          TRUE                  ~ label_init)
+  
+  return(label_upd)
+}
+
+lt12p <- function(ts) {
+  
+  label_init <- paste(hour(ts) %% 12, 
+                      str_pad(minute(ts), 2, 'left', '0'), sep = ':')
+  
+  label_upd  <- case_when(label_init ==  '0:00' ~ 'Noon',
+                          TRUE                  ~ label_init)
+  
+  return(label_upd)
+}
+
+
