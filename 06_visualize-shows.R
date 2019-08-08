@@ -1,4 +1,5 @@
 library(tidyverse)
+library(googledrive)
 
 source('99_freaky-time-function.R')
 
@@ -29,7 +30,7 @@ shows_long <- shows_alltimes %>%
   mutate(time_hm  = hm_safe(time) + hours(12),
          time_dhm = time_from_noon(time, lubridate::parse_date_time(date, '%A, %b. %d')),
          Stage = str_replace(stage, ' Stage', '') %>% 
-           fct_relevel('Lands End', 'Sutro', 'Twin Peaks', 'Panhandle')) 
+           fct_relevel('Lands End', 'Sutro', 'Twin Peaks', 'Panhandle', 'GastroMagic')) 
 
 
 # plot with path
@@ -39,7 +40,7 @@ shows_long %>%
   scale_x_time(labels = lt12p) + 
   scale_size_identity() +
   scale_color_manual(values = color_scale, guide = 'none') +
-  facet_grid(rows = vars(date), scales = 'free_x') +
+  facet_grid(rows = vars(date), scales = 'free') +
   geom_path() +
   theme_bw() +
   theme(axis.title = element_blank(),
