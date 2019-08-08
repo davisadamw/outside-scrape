@@ -46,4 +46,4 @@ shows_long %>%
   theme(axis.title = element_blank(),
         axis.text = element_text(size = 15))
 
-ggsave('t1.png')
+ggsave('OSL_outline.png')
