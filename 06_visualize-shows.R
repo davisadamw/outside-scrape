@@ -7,7 +7,7 @@ source('99_freaky-time-function.R')
 shows_alltimes <- read_rds('shows_all_time_data.rds')
 
 # load who we wanna see
-wwws <- readxl::read_excel('who-we-wanna-see.xlsx') %>%
+wwws <- readxl::read_excel('OSL-2019.xlsx') %>%
   select(artist, ymn:comments) %>% 
   mutate(`See Em` = if_else(is.na(ymn), 'Unk', ymn) %>% 
            fct_relevel('Unk', 'No', 'Maybe', 'Yes'),
@@ -30,7 +30,7 @@ shows_long <- shows_alltimes %>%
   mutate(time_hm  = hm_safe(time) + hours(12),
          time_dhm = time_from_noon(time, lubridate::parse_date_time(date, '%A, %b. %d')),
          Stage = str_replace(stage, ' Stage', '') %>% 
-           fct_relevel('Lands End', 'Sutro', 'Twin Peaks', 'Panhandle', 'GastroMagic')) 
+           fct_relevel('GastroMagic', 'Sutro', 'Lands End', 'Panhandle', 'Twin Peaks')) 
 
 
 # plot with path
